@@ -1,0 +1,7 @@
+#!/bin/bash
+# Get the base file name without extension
+FILE=$(basename "$CFILE" .c)
+# Compile the C code and generate the assembly code in Intel syntax
+gcc -S -masm=intel "$CFILE" -o "$FILE.s"
+# Print the first two lines of the output file
+head -n 2 "$FILE.s"
