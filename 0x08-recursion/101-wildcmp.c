@@ -35,11 +35,11 @@ int wildcmp(char *s1, char *s2)
 	return (0);
 }
 /**
- * bandersnatch - checks recursively for all the paths when
+ * bandersnatch - checks recursively for all the paths when the
  * characters are equal
  * @s1: first string
  * @s2: second string
- * Return: return value of wildcmp() or  itself
+ * Return: return value of wildcmp() or of itself
  */
 int bandersnatch(char *s1, char *s2)
 {
