@@ -1,19 +1,15 @@
 #include "main.h"
 
 /**
- * get_bit - Returns the value of a bit at a given index.
- * @n: The number to extract the bit from.
- * @index: The index of the bit to retrieve.
- *
- * Return: 1 on success and  -1 on failure.
+ * clear_bit - sets the value of a bit to 0 at a given index
+ * @n: pointer to number
+ * @index: index to change
+ * Return: 1 if it worked or -1 if an error occurred
  */
-int get_bit(unsigned long int n, unsigned int index)
+
+int clear_bit(unsigned long int *n, unsigned int index)
+
 {
-	unsigned long int mask;
-
-	if (index >= (sizeof(unsigned long int) * 8))
-		return (-1);
-
-	mask = 1UL << index;
-	return ((n & mask) ? 1 : 0);
+	*n = *n & ~(1 << index);
+	return ((index > 8 * sizeof(*n)) ? -1 : 1);
 }
