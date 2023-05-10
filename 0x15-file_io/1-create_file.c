@@ -1,36 +1,23 @@
 #include "main.h"
 
-ssize_t read_textfile(const char *filename, size_t letters)
+int create_file(const char *filename, char *text_content)
 {
     if (filename == NULL)
-        return 0;
+        return -1;
 
-    FILE *file = fopen(filename, "r");
-    if (file == NULL)
-        return 0;
+    int file_descriptor = open(filename, O_WRONLY | O_CREAT | O_TRUNC, S_IRUSR | S_IWUSR);
+    if (file_descriptor == -1)
+        return -1;
 
-    char *buffer = malloc(sizeof(char) * (letters + 1));
-    if (buffer == NULL) {
-        fclose(file);
-        return 0;
+    if (text_content != NULL) {
+        ssize_t text_length = strlen(text_content);
+        ssize_t bytes_written = write(file_descriptor, text_content, text_length);
+        if (bytes_written != text_length) {
+            close(file_descriptor);
+            return -1;
+        }
     }
 
-    ssize_t total_read = fread(buffer, sizeof(char), letters, file);
-    if (total_read == 0) {
-        fclose(file);
-        free(buffer);
-        return 0;
-    }
-
-    ssize_t total_written = write(STDOUT_FILENO, buffer, total_read);
-    if (total_written != total_read) {
-        fclose(file);
-        free(buffer);
-        return 0;
-    }
-
-    fclose(file);
-    free(buffer);
-
-    return total_written;
+    close(file_descriptor);
+    return 1;
 }
